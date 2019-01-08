@@ -1,0 +1,1 @@
+gpg --output me.jpg.gpg --symmetric me.jpg

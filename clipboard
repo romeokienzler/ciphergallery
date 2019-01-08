@@ -1,0 +1,94 @@
+ /*mymessage = window.openpgp.message.fromText('message')
+        encrypted = window.openpgp.encrypt( { message : mymessage, passwords : ['pw']})
+        encrypted.then(function(result) {
+            //alert(result)
+            plainAgain = window.openpgp.decrypt( { message : result, passwords : ['pw']})
+            alert(plainAgain)
+        })*/
+
+
+        <script lang="JavaScript" src="openpgp.js"></script>
+     <script lang="JavaScript">
+       
+
+        const options = {
+            message : window.openpgp.message.fromText('Hello, World!'),     
+            passwords : ['pw']
+        }
+
+        window.openpgp.encrypt(options).then(ciphertext => {
+            encrypted = ciphertext.data 
+            return encrypted
+        }).then(encrypted => {
+            const options = {
+                message: window.openpgp.message.readArmored(encrypted),   
+                passwords : ['pw']                               
+            }
+
+            window.openpgp.decrypt(options).then(plaintext => {
+                console.log(plaintext.data)
+                alert(plaintext.data )
+                return plaintext.data 
+            })
+
+        })
+
+
+        gpg --symmetric --decrypt [file]
+
+
+         try {    
+            var rawFile = new XMLHttpRequest();
+            rawFile.open("GET", "me.jpg", false);
+            rawFile.overrideMimeType('text/plain; charset=x-user-defined');
+            rawFile.onreadystatechange = function ()
+            {
+                if(rawFile.readyState === 4)
+                {
+                    if(rawFile.status === 200 || rawFile.status == 0)
+                    {
+                        var allText = btoa(String.fromCharCode(...new Uint8Array(rawFile.responseText)));
+                        var img = document.getElementById("me");
+                        img.src="data:image/jpeg;base64," + allText;
+                    }
+                }
+            }
+            rawFile.send(null);
+
+        } catch(err) {
+            alert(err)
+        }
+
+        function toDataURL(url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    callback(reader.result);
+                }
+                reader.readAsDataURL(xhr.response);
+            };
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+            xhr.send();
+        }
+
+        toDataURL('me.jpg.gpg', function(dataUrl) {
+            var img = document.getElementById("me");
+            alert(dataUrl)
+            img.src=dataUrl
+        })
+
+
+
+
+
+
+
+
+            var reader = new FileReader();
+                        reader.onloadend = function() {
+                            callback(reader.result);
+                        }
+                        reader.readAsDataURL(plaintext.data);
+        

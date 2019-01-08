@@ -1,0 +1,26 @@
+<html>
+    
+     <script lang="JavaScript" src="openpgp.js"></script>
+     <script lang="JavaScript">
+        const options = {
+            message : window.openpgp.message.fromText('Hello, World!'),     
+            passwords : ['pw'],
+            armor : false
+        }
+
+        window.openpgp.encrypt(options).then(ciphertext => {
+            encrypted = ciphertext.message 
+            return encrypted
+        }).then(encrypted => {
+            const options = {
+                message : encrypted,   
+                passwords : ['pw']                               
+            }
+            window.openpgp.decrypt(options).then(plaintext => {
+                console.log(plaintext.data)
+                alert(plaintext.data)
+                return plaintext.data 
+            })
+        })       
+    </script>
+</html>
